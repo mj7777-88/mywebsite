@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>泰坦尼克號生存預測</title>
+    <style>
+        /* 全局樣式 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #005f73;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+            font-weight: 600;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #0a9396;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a {
+            padding: 15px 20px;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #94d2bd;
+            color: #005f73;
+        }
+
+        #content {
+            padding: 30px 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        h2 {
+            border-left: 4px solid #0a9396;
+            padding-left: 10px;
+            color: #005f73;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        p, li {
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            overflow-x: auto;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #005f73;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>泰坦尼克號生存預測</h1>
+    </header>
+    <nav>
+        <a href="#" data-section="project-overview">專案簡介</a>
+        <a href="#" data-section="project-intro">專案介紹</a>
+        <a href="#" data-section="data-description">數據描述</a>
+        <a href="#" data-section="model-training">模型選擇與訓練</a>
+        <a href="#" data-section="prediction-results">預測結果</a>
+        <a href="#" data-section="references">參考資料與附錄</a>
+        <a href="#" data-section="team">製作團隊</a>
+    </nav>
+    <div id="content">
+        <div id="project-overview" class="hidden">
+            <h2>專案簡介</h2>
+            <p>本專案旨在分析泰坦尼克號沉船事件中乘客的生存機會，透過數據分析與機器學習技術，找出影響生存率的關鍵因素，並建立預測模型，幫助理解和應對類似的緊急情況。</p>
+        </div>
+        <div id="project-intro" class="hidden">
+            <h2>專案介紹</h2>
+            <h3>研究背景</h3>
+            <p>泰坦尼克號是一艘英國的奧林匹克級郵輪，於1912年首航時，從英國南安普頓出發，經過法國瑟堡和愛爾蘭昆士敦，原定駛往美國紐約。然而，該船在首次航行中於1912年4月14日晚間與冰山相撞，導致船體破損，最終在4月15日沉沒。此次事故共造成2224名乘客和船員中的1502人喪生，成為歷史上最著名的海難之一。</p>
+            <p>事故發生後，各方對於泰坦尼克號沉沒的原因、安全措施和乘客的生存機會進行了廣泛研究。根據歷史數據和資料，乘客的生存機會與多種因素有關，如年齡、性別、艙等、家庭成員等。因此，通過對這些因素進行分析，我們可以更好地理解乘客生存的可能性以及在類似事故中提高生存機會的方法。</p>
+            <h3>研究問題</h3>
+            <ul>
+                <li>乘客的年齡、性別、艙等、家庭成員等因素對生存率有何影響？</li>
+                <li>哪些因素對生存率具有最大的影響力？</li>
+                <li>基於這些因素，如何預測乘客在類似事故中的生存機會？</li>
+            </ul>
+        </div>
+        <div id="data-description" class="hidden">
+            <h2>數據描述</h2>
+            <h3>數據集的來源</h3>
+            <p>數據集來自 Kaggle，網址：<a href="https://www.kaggle.com/datasets/brendan45774/test-file" target="_blank">點擊這裡</a></p>
+            <h3>數據集描述</h3>
+            <p>數據包含891筆資料，12個變量。以下為主要變量：</p>
+            <ul>
+                <li>PassengerId：乘客ID</li>
+                <li>Survived：是否存活</li>
+                <li>Pclass：艙等（1=頭等艙，2=二等艙，3=三等艙）</li>
+                <li>Sex：性別</li>
+                <li>Age：年齡</li>
+                <li>Fare：票價</li>
+                <li>Embarked：登船港口</li>
+            </ul>
+            <h3>數據處理</h3>
+            <p>缺失值處理後，資料筆數共712筆。</p>
+        </div>
+        <div id="model-training" class="hidden">
+            <h2>模型選擇與訓練</h2>
+            <h3>採用之模型</h3>
+            <p>使用決策樹 (Decision Tree) 進行預測。此模型易於解釋，對異常值有容忍度。</p>
+            <h3>訓練集與測試集</h3>
+            <p>測試與訓練的比例範例如下：</p>
+            <ul>
+                <li>1:9 - 準確率 81%</li>
+                <li>2:8 - 準確率 75%</li>
+                <li>3:7 - 準確率 71%</li>
+                <li>4:6 - 準確率 72%</li>
+            </ul>
+        </div>
+        <div id="prediction-results" class="hidden">
+            <h2>預測結果</h2>
+            <p>模型平均準確率為 74.75%。</p>
+        </div>
+        <div id="references" class="hidden">
+            <h2>參考資料與附錄</h2>
+            <h3>附錄一：原始程式碼</h3>
+            <pre>
+import pandas as pd
+import numpy as np
+from sklearn.tree import DecisionTreeClassifier
+
+data = pd.read_csv("https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv")
+data = data.dropna()
+clf = DecisionTreeClassifier(random_state=42)
+clf.fit(data[['Pclass', 'Sex']], data['Survived'])
+            </pre>
+        </div>
+        <div id="team" class="hidden">
+            <h2>製作團隊</h2>
+            <p>本專案由以下成員共同完成：</p>
+            <ul>
+                <li>成員A - 數據處理與分析</li>
+                <li>成員B - 模型建立與測試</li>
+                <li>成員C - 結果分析與報告撰寫</li>
+                <li>成員D - 網頁設計與開發</li>
+            </ul>
+        </div>
+    </div>
+    <footer>
+        <p>© 2025 泰坦尼克號生存預測團隊</p>
+    </footer>
+    <script>
+        const links = document.querySelectorAll('nav a');
+        const sections = document.querySelectorAll('#content > div');
+
+        links.forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                const targetSection = link.getAttribute('data-section');
+                sections.forEach(section => {
+                    if (section.id === targetSection) {
+                        section.classList.add('visible');
+                        section.classList.remove('hidden');
+                    } else {
+                        section.classList.add('hidden');
+                        section.classList.remove('visible');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
